@@ -1,9 +1,11 @@
 # imports
 import unittest
-from block import * 
+from block import *
 import time
 
 # unit test class
+
+
 class TestBlock(unittest.TestCase):
 
     # test hash function
@@ -14,7 +16,7 @@ class TestBlock(unittest.TestCase):
         # check to see if hashes are different
         a = "apple"
         b = "orange"
-        hashA = hashSHA(a)        
+        hashA = hashSHA(a)
         hashB = hashSHA(b)
         self.assertNotEqual(hashA, hashB)
 
@@ -52,9 +54,9 @@ class TestBlock(unittest.TestCase):
         bc.addBlock(testBlock)
         self.assertEqual(bc.chain[0], testBlock)
 
-
     # test top
     # check to see if calling top returns the last block in the chain
+
     def testTop(self):
         bc = Blockchain()
         testBlock = createBlock('this is a test', '123456789')
@@ -79,7 +81,8 @@ class TestBlock(unittest.TestCase):
     def testPoW(self):
         data = 'testPoW'
         prevHash = '000000'
-        target = 10**100       # play around with this exponent (stick to the 60-100 range)
+        # play around with this exponent (stick to the 60-100 range)
+        target = 10**100
         print("Mining...")
         a = int(time.time())
         b = createBlockPoW(data, prevHash, target)
@@ -87,7 +90,6 @@ class TestBlock(unittest.TestCase):
         c = int(time.time())
         print("Time it took: {} seconds".format((c-a)))
         self.assertLessEqual(toInt(b['blockHash']), target)
-
 
 
 if __name__ == '__main__':
