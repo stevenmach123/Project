@@ -75,10 +75,11 @@ class TestBlock(unittest.TestCase):
     # test proof of work
     # check to see if a proof of work mined block
     # contains a hash that's less than the target
+    # check also how much time it takes to mine a block
     def testPoW(self):
         data = 'testPoW'
         prevHash = '000000'
-        target = 10**70       # play around with this exponent (stick to the 60-100 range)
+        target = 10**100       # play around with this exponent (stick to the 60-100 range)
         print("Mining...")
         a = int(time.time())
         b = createBlockPoW(data, prevHash, target)
