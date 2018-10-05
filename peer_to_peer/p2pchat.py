@@ -8,10 +8,11 @@ print('*'*25 + ' P2P Chat ' + '*'*27)
 print('*'*62)
 
 def chat(n):
-    ui = input("\n>> : ")
+    print("Start chatting!")
+    ui = input("\n")
     while not ui == "q":
         n.send_message(ui)
-        ui = input("\n>> : ")
+        ui = input("\n")
 
     n.disconnect()
 
