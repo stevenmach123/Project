@@ -1,3 +1,7 @@
+
+
+
+
 from networks import *
 
 # header
@@ -7,12 +11,12 @@ print('*'*62)
 print('*'*25 + ' P2P Chat ' + '*'*27)
 print('*'*62)
 
-def chat(n):
+def chat(n, ip):
     print("Start chatting!")
     ui = input("\n")
     while not ui == "q":
-        n.send_message(ui)
-        ui = input("\n")
+        n.send_message("{ " + ip + " } " + ui)
+        ui = input()
 
     n.disconnect()
 
@@ -31,18 +35,21 @@ if ui == 0:
 else:
     print(">> You will be a client.")
     n = Client()
-    ip = input(">> Server IP? (xxx.xxx.x.x): ")
-    port = int(input(">> Server port?: "))
+    addr = input(">> Server ip:port (xxx.xxx.x.x:x) ? ")
+    addr = addr.replace(" ", "")
+    addr = addr.split(":")
     server = {
-        'ip': ip,
-        'port': port
+        'ip': addr[0],
+        'port': int(addr[1])
     }
     n.integrate(server)
 
 n.integrated.wait()
 
+your_ip = get_ip()
+
 input_thread = threading.Thread(
-    target=chat, name="Chat", args=(n,))
+    target=chat, name="Chat", args=(n, your_ip))
 input_thread.start()
 
 

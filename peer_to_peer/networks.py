@@ -1,6 +1,12 @@
+#
+#
+# NOTE:
+# No peer-to-peer tracker implemented; manual address parameters required
+# Not yet tested for > 1 number of connections to server
+# 
+
 import socket
 import threading
-
 
 def get_ip():
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -25,7 +31,7 @@ class Node:
                 msg = conn.recv(1024)
                 if not msg:
                     raise ConnectionError
-                print("\n<< " + addr[0] + ": " + msg.decode())
+                print("\n<< " + msg.decode())
                 self.new_message.set()
                 self.send_message(msg, conn)
             except (ConnectionError, OSError):
@@ -61,6 +67,7 @@ class Server(Node):
         while True:
             try:
                 conn, addr = self.listen_socket.accept()  # <-- blocking call
+                print("\n" + addr[0] + " has connected.")
                 self.integrated.set()
                 self.sockets.append(conn)
                 handler_thread = threading.Thread(
@@ -85,6 +92,7 @@ class Client(Node):
             ip = peer['ip']
             port = peer['port']
             addr = ip, port
+            print("Attempting to connect to %s on port %d" %(ip, port))
             conn.connect(addr)
             self.integrated.set()
             self.sockets.append(conn)
